@@ -1,0 +1,82 @@
+{% load static %}<!DOCTYPE html>
+<head>
+	<style>
+		body {
+			font-family: Monospace;
+			background-color: #000;
+			color: #fff;
+			margin: 0px;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+<!--<script src="//cdn.rawgit.com/mrdoob/three.js/master/build/three.min.js"></script>-->
+<script src="{% static 'js/three.min.js' %}"></script>
+<script src="{% static 'js/FBXLoader2.js' %}"></script>
+<script src="{% static 'js/OrbitControls.js' %}"></script>
+<script src="{% static 'js/HorseThreeHelpers.js' %}"></script>
+<script>
+	var container;
+	var scene, camera, vase, renderer, light, controls;
+
+	init();
+	animate();
+
+	function init() {
+		// create document container
+		container = document.createElement('div');
+		document.body.appendChild(container);
+
+		// prepare scene and camera(FoV, aspect ratio, near clipping plane, far clipping plane)
+		camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 2000);
+		scene = new THREE.Scene();
+
+		// add grid for visual reference
+		var gridHelper = new THREE.GridHelper(28, 28, 0xaaaaaa, 0x303030);
+		gridHelper.position.set(0, -0.04, 0);
+		scene.add(gridHelper);
+		
+		// create loading manager to load the fbx
+		var manager = HorseLoader();
+		
+		// create loader using loading manager
+		var loader = new THREE.FBXLoader(manager);
+		loader.load("{% static 'assets/vase3_ascii.fbx' %}", function(object) {
+			vase = object;
+			vase.rotation.z = 3.14/6;
+			scene.add(vase);
+		}, manager.onProgress, manager.onError);
+		
+		// add renderer to container
+		renderer = new THREE.WebGLRenderer();
+		renderer.setPixelRatio(window.devicePixelRatio);
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.setClearColor(0x000000);
+		container.appendChild(renderer.domElement);
+		
+		// add light to scene
+		light = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
+		light.position.set(0, 1, 0);
+		scene.add(light);
+		light = new THREE.DirectionalLight(0xffffff, 1.0);
+		light.position.set(0, 1, 0);
+		scene.add(light);
+		
+		// add camera controller
+		controls = new THREE.OrbitControls(camera, renderer.domElement);
+		controls.target.set(0, 12, 0);
+		camera.position.set(2, 35, 50);
+		controls.update();
+		
+		animate();
+	}
+
+	function animate() {
+		requestAnimationFrame( animate );
+		vase.rotation.y += 0.02;
+		renderer.render( scene, camera );
+	}
+</script>
+</body>
+</html>

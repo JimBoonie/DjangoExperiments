@@ -45,6 +45,7 @@
 		loader.load("{% static 'assets/vase3_ascii.fbx' %}", function(object) {
 			vase = object;
 			vase.rotation.z = 3.14/6;
+			vase.position.set(1, 1, 1);
 			scene.add(vase);
 		}, manager.onProgress, manager.onError);
 		

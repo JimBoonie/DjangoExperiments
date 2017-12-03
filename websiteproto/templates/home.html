@@ -1,26 +1,13 @@
-{% load static %}<!DOCTYPE html>
-<head>
-    <title>{% block title %}Home - WebsiteProto{% endblock %}</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <style>
-        body {
-            font-family: Monospace;
-            background-color: #eee;
-            color: #fff;
-            margin: 0px;
-            overflow: hidden;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block behavior %}
 <script src="{% static 'js/three.min.js' %}"></script>
 <script src="{% static 'js/FBXLoader2.js' %}"></script>
 <script src="{% static 'js/FresnelShader.js' %}"></script>
 <script src="{% static 'js/OrbitControls.js' %}"></script>
 <script src="{% static 'js/HorseThreeHelpers.js' %}"></script>
 
-</body>
 <script>
     var audioUrl = "{% static 'assets/audio/aquaticAmbience.mp3' %}";
     var seafloorFbxUrl = "{% static 'assets/seafloor.fbx' %}";
@@ -229,4 +216,4 @@
         renderer.render(scene, camera);
     }
 </script>
-</body>
+{% endblock %}

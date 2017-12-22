@@ -1,0 +1,20 @@
+body {
+    background-image: url('../img/christmas-dark.png');
+}
+
+.logo {
+    font-family: 'Peralta', cursive;
+}
+
+.logo a {
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.logo a:hover,
+.logo a:active {
+    text-decoration: none;
+}
+
+.text-white {
+    color: rgba(1, 1, 1, 0.9);
+}
